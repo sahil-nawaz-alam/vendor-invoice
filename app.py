@@ -1,4 +1,36 @@
-        conn.close()
+import streamlit as st
+import pandas as pd
+import numpy as np
+import sqlite3
+import joblib
+from pathlib import Path
+
+# ---------------- CONFIG ----------------
+st.set_page_config(page_title="Vendor Invoice Intelligence", page_icon="📊", layout="wide")
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "inventory.db"
+MODEL_DIR = BASE_DIR / "models"
+FREIGHT_MODEL_PATH = MODEL_DIR / "predict_freight_model.pkl"
+RISK_MODEL_PATH = MODEL_DIR / "predict_flag_invoice_model.pkl"
+SCALER_PATH = MODEL_DIR / "scaler.pkl"
+
+# ---------------- HELPERS ----------------
+@st.cache_data
+def load_tables(db_path):
+    if not db_path.exists():
+        return None
+    conn = sqlite3.connect(str(db_path))
+    try:
+        tables = pd.read_sql_query(
+            "SELECT name FROM sqlite_master WHERE type='table'", conn
+        )["name"].tolist()
+        data = {}
+        for table in tables:
+            # Table names come from SQLite metadata, not user input.
+            data[table] = pd.read_sql_query(f'SELECT * FROM "{table}"', conn)
+        return data
+    finally:
+            conn.close()
 
 def load_model(path):
     try:
