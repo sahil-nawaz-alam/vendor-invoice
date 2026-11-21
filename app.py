@@ -150,11 +150,12 @@ elif page == "Database Explorer":
 # ---------------- ABOUT ----------------
 elif page == "About":
     st.title("ℹ️ About this project")
-    st.markdown("""
-    **Vendor Invoice Intelligence System** has two machine-learning components:
-
-    - **Freight Cost Prediction (Regression):** estimates freight charges from invoice dollar value.
-    - **Invoice Risk Flagging (Classification):** predicts whether an invoice may require manual review using invoice and purchase-summary features.
-
-    The risk label in the original notebook is rule-derived (invoice-to-purchase dollar mismatch or receiving delay above 10 days).
-    The classifier therefore learns that rule-based label rather than independently verified fraud or risk.
+    st.title("ℹ️ About this project")
+    st.markdown(
+        "**Vendor Invoice Intelligence System** has two machine-learning components:\n\n"
+        "- **Freight Cost Prediction (Regression):** estimates freight charges from invoice dollar value.\n"
+        "- **Invoice Risk Flagging (Classification):** predicts whether an invoice may require manual review using invoice and purchase-summary features.\n\n"
+        "The risk label in the original notebook is rule-derived (invoice-to-purchase dollar mismatch or receiving delay above 10 days).\n"
+        "The classifier therefore learns that rule-based label rather than independently verified fraud or risk."
+    )
+    st.info("This app is a decision-support tool. Review flagged invoices manually; a model prediction is not proof of an error or fraud.")
